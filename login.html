@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Panel | SentaPrint</title>
+  <script>
+    tailwind = {
+      config: {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#fff7ed",
+                100: "#ffedd5",
+                500: "#f97316",
+                600: "#ea580c",
+                900: "#7c2d12"
+              }
+            },
+            boxShadow: {
+              soft: "0 20px 60px rgba(15, 23, 42, 0.12)",
+              card: "0 10px 30px rgba(15, 23, 42, 0.08)"
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body data-page="login" class="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(249,115,22,0.18),_transparent_24%),linear-gradient(180deg,_#fffaf5_0%,_#f8fafc_100%)] text-slate-900">
+  <div id="toast-stack" class="fixed right-4 top-4 z-[70] flex w-[min(92vw,24rem)] flex-col gap-3"></div>
+  <main class="mx-auto flex min-h-screen w-[min(1180px,calc(100%-2rem))] items-center py-8">
+    <section class="grid w-full gap-6 lg:grid-cols-[minmax(0,1.1fr)_420px]">
+      <div class="overflow-hidden rounded-[2rem] border border-white/70 bg-gradient-to-br from-slate-950 via-slate-900 to-brand-900 p-8 text-white shadow-soft md:p-12">
+        <a href="index.html" class="inline-flex items-center gap-4">
+          <div class="grid h-14 w-14 place-items-center rounded-3xl bg-white/10 text-xl font-black backdrop-blur">SP</div>
+          <div>
+            <p class="text-lg font-bold tracking-tight">SentaPrint</p>
+            <p class="text-sm text-slate-300">Panel Internal Produksi dan Monitoring</p>
+          </div>
+        </a>
+        <div class="mt-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-orange-100 backdrop-blur">
+          <i data-lucide="shield-check" class="h-4 w-4"></i>Admin dan operator produksi
+        </div>
+        <h1 class="mt-6 text-4xl font-black leading-tight tracking-tight md:text-5xl">Login ke panel yang terhubung dengan order, invoice, dan progres produksi.</h1>
+        <p class="mt-5 max-w-2xl text-base leading-8 text-slate-200">Role admin diarahkan ke dashboard dengan chart, statistik, monitoring, dan laporan. Role operator diarahkan ke daftar kerja dan update tahapan produksi.</p>
+        <div class="mt-8 grid gap-4 md:grid-cols-2">
+          <button type="button" class="rounded-[1.5rem] border border-white/10 bg-white/10 p-5 text-left backdrop-blur transition hover:-translate-y-0.5" data-role-card="admin">
+            <div class="mb-3 inline-flex rounded-2xl bg-white/10 p-3 text-orange-200"><i data-lucide="bar-chart-3" class="h-5 w-5"></i></div>
+            <h3 class="font-bold">Admin</h3>
+            <p class="mt-2 text-sm leading-7 text-slate-200">Monitoring pesanan, invoice, chart performa, template WhatsApp, dan pricing.</p>
+          </button>
+          <button type="button" class="rounded-[1.5rem] border border-white/10 bg-white/10 p-5 text-left backdrop-blur transition hover:-translate-y-0.5" data-role-card="operator">
+            <div class="mb-3 inline-flex rounded-2xl bg-white/10 p-3 text-orange-200"><i data-lucide="factory" class="h-5 w-5"></i></div>
+            <h3 class="font-bold">Operator</h3>
+            <p class="mt-2 text-sm leading-7 text-slate-200">Daftar tugas, detail order, update tahapan, dan catatan progres produksi.</p>
+          </button>
+        </div>
+      </div>
+
+      <form id="login-form" class="rounded-[2rem] border border-white/70 bg-white/95 p-6 shadow-soft md:p-8">
+        <div class="mb-6 flex items-start justify-between gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Masuk panel</p>
+            <h2 class="mt-2 text-3xl font-black tracking-tight text-slate-900">Prototype Access</h2>
+          </div>
+          <div class="rounded-2xl bg-brand-100 p-3 text-brand-700">
+            <i data-lucide="scan-face" class="h-6 w-6"></i>
+          </div>
+        </div>
+
+        <div class="space-y-5">
+          <label class="block">
+            <span class="mb-2 block text-sm font-semibold text-slate-700">Email</span>
+            <input type="email" id="login-email" value="admin@sentaprint.id" class="w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus:border-brand-400 focus:ring-brand-200">
+          </label>
+
+          <label class="block">
+            <span class="mb-2 block text-sm font-semibold text-slate-700">Password</span>
+            <div class="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus-within:border-brand-400 focus-within:ring-4 focus-within:ring-brand-100">
+              <i data-lucide="lock-keyhole" class="h-5 w-5 text-slate-400"></i>
+              <input type="password" id="login-password" value="prototype123" class="w-full border-0 bg-transparent p-0 focus:ring-0">
+              <button id="toggle-password" type="button" class="text-sm font-semibold text-brand-600">Lihat</button>
+            </div>
+          </label>
+
+          <label class="block">
+            <span class="mb-2 block text-sm font-semibold text-slate-700">Role</span>
+            <select id="login-role" class="w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus:border-brand-400 focus:ring-brand-200">
+              <option value="admin">Admin</option>
+              <option value="operator">Operator Produksi</option>
+            </select>
+          </label>
+
+          <div class="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-4">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <p class="text-sm font-semibold text-slate-800">Role preview</p>
+                <p id="login-role-hint" class="mt-1 text-sm leading-6 text-slate-500">Admin akan diarahkan ke statistik, chart, monitoring, dan laporan.</p>
+              </div>
+              <button type="button" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700" data-toast="Ini adalah panel prototipe. Tidak ada autentikasi backend nyata di balik halaman ini.">
+                <i data-lucide="info" class="h-4 w-4"></i>Info
+              </button>
+            </div>
+          </div>
+
+          <label class="flex items-center gap-3 text-sm text-slate-600">
+            <input type="checkbox" checked class="rounded border-slate-300 text-brand-600 focus:ring-brand-200">
+            Ingat sesi mock ini
+          </label>
+
+          <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-[1.25rem] bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-4 font-semibold text-white shadow-soft transition hover:-translate-y-0.5">
+            <i data-lucide="log-in" class="h-5 w-5"></i>Masuk ke panel
+          </button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

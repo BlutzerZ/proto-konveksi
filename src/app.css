@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased;
+  }
+
+  * {
+    @apply border-slate-200;
+  }
+}
+
+@layer components {
+  .page-shell {
+    @apply mx-auto w-[min(1240px,calc(100%-1.5rem))];
+  }
+
+  .glass-panel {
+    @apply border border-white/70 bg-white/95 shadow-card;
+  }
+
+  .hero-panel {
+    @apply overflow-hidden rounded-[1.75rem] border border-white/70 p-6 text-white shadow-soft md:p-8;
+  }
+
+  .section-surface {
+    @apply rounded-[1.5rem] border border-white/70 bg-white/95 shadow-card;
+  }
+}

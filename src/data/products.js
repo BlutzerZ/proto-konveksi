@@ -1,0 +1,193 @@
+export const brandName = "<Prototype>";
+
+export const catalogCategories = [
+  { id: "all", label: "Semua" },
+  { id: "workwear", label: "Workwear" },
+  { id: "corporate", label: "Corporate" },
+  { id: "outerwear", label: "Outerwear" },
+  { id: "merchandise", label: "Merchandise" },
+];
+
+export const sizeProfiles = [
+  { id: "adult-standard", label: "Dewasa Standar", sizes: ["S", "M", "L", "XL", "2XL", "3XL"] },
+  { id: "adult-plus", label: "Dewasa Plus", sizes: ["L", "XL", "2XL", "3XL", "4XL"] },
+  { id: "free-size", label: "Free Size", sizes: ["All Size"] },
+];
+
+export const initialPromoBanner = {
+  id: "promo-juli",
+  title: "Promo launching katalog Q3",
+  description: "Diskon setup desain dan prioritas sampling untuk order workwear, corporate set, dan merchandise pilihan.",
+  ctaLabel: "Belanja sekarang",
+  ctaHref: "/catalog",
+  badge: "Promo aktif",
+  period: "3 Jul - 31 Jul 2026",
+  image: "/assets/media/pdf/workshirt-007.jpg",
+  active: true,
+};
+
+export const initialCatalogProducts = [
+  {
+    id: "workshirt-lapangan-pro",
+    sku: "WRK-001",
+    categoryId: "workwear",
+    name: "Workshirt Lapangan Pro",
+    shortDescription: "Seragam teknisi dengan kombinasi panel dan opsi reflektif untuk tim lapangan.",
+    description:
+      "Model workshirt untuk kebutuhan operasional, maintenance, dan site project. Cocok untuk order korporat yang membutuhkan identitas brand kuat, layout logo multi titik, dan lead time yang masih efisien.",
+    image: "/assets/media/pdf/workshirt-001.jpg",
+    gallery: [
+      "/assets/media/pdf/workshirt-001.jpg",
+      "/assets/media/pdf/workshirt-005.jpg",
+      "/assets/media/pdf/workshirt-007.jpg",
+    ],
+    material: "American Drill",
+    defaultBranding: "Bordir",
+    brandingOptions: ["Bordir", "Sablon DTF"],
+    sizeProfileId: "adult-standard",
+    variants: ["Lengan pendek", "Lengan panjang", "Japan Drill"],
+    minOrder: 36,
+    leadTime: "8-10 hari kerja",
+    useCase: "Teknisi, supervisor lapangan, operasional site",
+    featured: true,
+    published: true,
+    priceTiers: [
+      { minQty: 36, label: "36 pcs", unitPrice: 143000 },
+      { minQty: 50, label: "50 pcs", unitPrice: 138000 },
+      { minQty: 100, label: "100 pcs", unitPrice: 132000 },
+    ],
+    addons: [
+      { id: "reflective", name: "Scotlight reflektif", price: 12000 },
+      { id: "name-tag", name: "Bordir nama", price: 6000 },
+      { id: "extra-pocket", name: "Pocket tambahan", price: 8000 },
+    ],
+    specs: [
+      "2 saku depan dengan flap",
+      "Kombinasi warna panel bahu",
+      "Opsi logo 3 titik",
+      "Cocok untuk repeat order korporat",
+    ],
+  },
+  {
+    id: "polo-signature-office",
+    sku: "COR-014",
+    categoryId: "corporate",
+    name: "Polo Signature Office",
+    shortDescription: "Polo corporate untuk frontliner dan event internal dengan aksen list rapi.",
+    description:
+      "Polo seragam yang dirancang untuk tampilan lebih clean di lingkungan kantor, sales team, dan activation event. Cocok untuk brand yang ingin look formal tetapi tetap ringan dipakai harian.",
+    image: "/assets/media/pdf/polo-001.jpg",
+    gallery: [
+      "/assets/media/pdf/polo-001.jpg",
+      "/assets/media/pdf/polo-003.jpg",
+      "/assets/media/pdf/polo-005.jpg",
+    ],
+    material: "Lacoste CVC 24s",
+    defaultBranding: "Bordir",
+    brandingOptions: ["Bordir", "Sablon DTF"],
+    sizeProfileId: "adult-standard",
+    variants: ["Reguler fit", "Slim fit", "Lengan panjang"],
+    minOrder: 36,
+    leadTime: "7-9 hari kerja",
+    useCase: "Sales, event company, frontliner",
+    featured: true,
+    published: true,
+    priceTiers: [
+      { minQty: 36, label: "36 pcs", unitPrice: 109000 },
+      { minQty: 50, label: "50 pcs", unitPrice: 105000 },
+      { minQty: 100, label: "100 pcs", unitPrice: 99500 },
+    ],
+    addons: [
+      { id: "long-sleeve", name: "Lengan panjang", price: 7000 },
+      { id: "name-embroidery", name: "Bordir nama", price: 6000 },
+      { id: "plus-size", name: "Ukuran 3XL", price: 10000 },
+    ],
+    specs: [
+      "Kerab polo formal",
+      "Bordir dada kiri",
+      "Opsi list warna custom",
+      "Nyaman untuk indoor dan event",
+    ],
+  },
+  {
+    id: "jaket-softshell-team",
+    sku: "OUT-007",
+    categoryId: "outerwear",
+    name: "Jaket Softshell Team",
+    shortDescription: "Jaket custom untuk tim operasional, komunitas, dan gifting premium.",
+    description:
+      "Softshell dengan struktur lebih premium untuk kebutuhan corporate gifting, tim lapangan, dan komunitas internal. Menampung bordir logo depan-belakang dan opsi lining tambahan.",
+    image: "/assets/media/pdf/vest-004.jpg",
+    gallery: [
+      "/assets/media/pdf/vest-004.jpg",
+      "/assets/media/pdf/vest-006.jpg",
+      "/assets/media/pdf/workshirt-000.jpg",
+    ],
+    material: "Softshell fleece",
+    defaultBranding: "Bordir",
+    brandingOptions: ["Bordir"],
+    sizeProfileId: "adult-plus",
+    variants: ["Tanpa hoodie", "Dengan hoodie", "Furing premium"],
+    minOrder: 36,
+    leadTime: "9-12 hari kerja",
+    useCase: "Operasional, komunitas, hadiah kantor",
+    featured: true,
+    published: true,
+    priceTiers: [
+      { minQty: 36, label: "36 pcs", unitPrice: 238000 },
+      { minQty: 50, label: "50 pcs", unitPrice: 229000 },
+      { minQty: 100, label: "100 pcs", unitPrice: 218000 },
+    ],
+    addons: [
+      { id: "back-embroidery", name: "Bordir belakang", price: 12000 },
+      { id: "premium-lining", name: "Furing premium", price: 18000 },
+      { id: "size-3xl", name: "Ukuran 3XL", price: 15000 },
+    ],
+    specs: [
+      "Zipper depan full",
+      "Logo corporate di dada kiri",
+      "Tahan angin dan rapi untuk outdoor",
+      "Pilihan warna panel custom",
+    ],
+  },
+  {
+    id: "tumbler-stainless-harian",
+    sku: "MRC-021",
+    categoryId: "merchandise",
+    name: "Tumbler Stainless Harian",
+    shortDescription: "Souvenir kantor dengan logo custom dan packaging individual.",
+    description:
+      "Merchandise harian untuk seminar kit, onboarding pack, atau event corporate. Unit ringan dipesan bersama apparel sebagai paket campaign atau welcome kit.",
+    image: "/assets/media/pdf/vest-001.jpg",
+    gallery: [
+      "/assets/media/pdf/vest-001.jpg",
+      "/assets/media/pdf/polo-000.jpg",
+      "/assets/media/pdf/workshirt-005.jpg",
+    ],
+    material: "Stainless SUS 304",
+    defaultBranding: "Sablon UV",
+    brandingOptions: ["Sablon UV", "Laser engraving"],
+    sizeProfileId: "free-size",
+    variants: ["380 ml", "500 ml", "Dengan sleeve box"],
+    minOrder: 25,
+    leadTime: "4-6 hari kerja",
+    useCase: "Souvenir kantor, seminar kit, gift set",
+    featured: false,
+    published: true,
+    priceTiers: [
+      { minQty: 25, label: "25 pcs", unitPrice: 119000 },
+      { minQty: 50, label: "50 pcs", unitPrice: 113000 },
+      { minQty: 100, label: "100 pcs", unitPrice: 109000 },
+    ],
+    addons: [
+      { id: "logo-two-side", name: "Logo 2 sisi", price: 3000 },
+      { id: "custom-box", name: "Custom sleeve box", price: 7000 },
+    ],
+    specs: [
+      "Kemasan individual",
+      "Branding 1 sisi default",
+      "Aman untuk paket corporate gift",
+      "MOQ lebih fleksibel",
+    ],
+  },
+];

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Pemesanan | SentaPrint</title>
+  <script>
+    tailwind = {
+      config: {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#fff7ed",
+                100: "#ffedd5",
+                500: "#f97316",
+                600: "#ea580c",
+                900: "#7c2d12"
+              }
+            },
+            boxShadow: {
+              soft: "0 20px 60px rgba(15, 23, 42, 0.12)",
+              card: "0 10px 30px rgba(15, 23, 42, 0.08)"
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body data-page="order" class="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(249,115,22,0.14),_transparent_22%),linear-gradient(180deg,_#fffaf5_0%,_#f8fafc_100%)] text-slate-900">
+  <div id="toast-stack" class="fixed right-4 top-4 z-[70] flex w-[min(92vw,24rem)] flex-col gap-3"></div>
+  <div id="app-modal" class="pointer-events-none fixed inset-0 z-[80] hidden">
+    <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" data-close-app-modal></div>
+    <div class="relative mx-auto mt-10 w-[min(92vw,56rem)] rounded-[2rem] border border-white/60 bg-white/95 p-6 shadow-soft md:mt-16 md:p-8">
+      <button type="button" class="absolute right-5 top-5 rounded-full bg-slate-100 p-2 text-slate-600 transition hover:bg-slate-200" data-close-app-modal><i data-lucide="x" class="h-5 w-5"></i></button>
+      <h3 id="app-modal-title" class="text-2xl font-black text-slate-900"></h3>
+      <div id="app-modal-body" class="mt-4 prose prose-slate max-w-none"></div>
+    </div>
+  </div>
+
+  <header class="sticky top-0 z-50 border-b border-white/60 bg-white/80 backdrop-blur-xl">
+    <div class="mx-auto flex w-[min(1280px,calc(100%-2rem))] flex-col gap-4 py-4">
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <a href="index.html" class="inline-flex items-center gap-4">
+          <div class="grid h-14 w-14 place-items-center rounded-3xl bg-gradient-to-br from-brand-500 via-brand-600 to-amber-700 text-xl font-black text-white shadow-card">SP</div>
+          <div>
+            <p class="text-lg font-bold tracking-tight text-slate-900">SentaPrint</p>
+            <p class="text-sm text-slate-500">Form Pemesanan</p>
+          </div>
+        </a>
+        <nav class="flex flex-wrap items-center gap-3 text-sm font-medium text-slate-600">
+          <a href="catalog.html" class="rounded-full px-4 py-2 transition hover:bg-slate-100 hover:text-slate-900">Katalog</a>
+          <a href="tracking.html" class="rounded-full px-4 py-2 transition hover:bg-slate-100 hover:text-slate-900">Tracking</a>
+          <a href="login.html" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-card"><i data-lucide="layout-dashboard" class="h-4 w-4"></i>Login Panel</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto w-[min(1280px,calc(100%-2rem))] py-8">
+    <section class="overflow-hidden rounded-[2rem] border border-white/70 bg-gradient-to-r from-slate-950 via-slate-900 to-brand-900 p-7 text-white shadow-soft md:p-10">
+      <div class="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-orange-200">Step form</p>
+          <h1 class="mt-3 text-4xl font-black tracking-tight md:text-5xl">Pemesanan mengikuti alur customer dari diagram.</h1>
+          <p class="mt-4 max-w-3xl text-sm leading-8 text-slate-200 md:text-base">Isi data, pilih model, unggah desain, hitung estimasi, lalu review ringkasan sebelum admin membuat invoice tracking.</p>
+        </div>
+        <button type="button" class="rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow-card" data-modal-template="order-form">Lihat panduan step</button>
+      </div>
+    </section>
+
+    <div id="order-stepper" class="mt-8 flex gap-3 overflow-x-auto pb-2">
+      <button class="step active inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-3 text-sm font-semibold text-white" data-step="0" type="button">1. Data</button>
+      <button class="step inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700" data-step="1" type="button">2. Produk</button>
+      <button class="step inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700" data-step="2" type="button">3. Desain</button>
+      <button class="step inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700" data-step="3" type="button">4. Estimasi</button>
+      <button class="step inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700" data-step="4" type="button">5. Ringkasan</button>
+    </div>
+
+    <div class="mt-8 grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_360px]">
+      <section class="rounded-[2rem] border border-white/70 bg-white/95 p-5 shadow-card md:p-6">
+        <div class="step-panel active space-y-5" data-step-panel="0">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Data pemesan</p>
+            <h2 class="mt-2 text-3xl font-black text-slate-900">Siapa yang memesan?</h2>
+          </div>
+          <div class="grid gap-4 md:grid-cols-2">
+            <label class="block"><span class="mb-2 block text-sm font-semibold text-slate-700">Nama perusahaan / instansi</span><input type="text" id="customer-name" placeholder="PT Sentosa Mandiri" class="w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus:border-brand-400 focus:ring-brand-200"></label>
+            <label class="block"><span class="mb-2 block text-sm font-semibold text-slate-700">Nama PIC</span><input type="text" id="customer-pic" placeholder="Budi Santoso" class="w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus:border-brand-400 focus:ring-brand-200"></label>
+            <label class="block"><span class="mb-2 block text-sm font-semibold text-slate-700">WhatsApp</span><input type="text" id="customer-wa" placeholder="08xxxxxxxxxx" class="w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus:border-brand-400 focus:ring-brand-200"></label>
+            <label class="block"><span class="mb-2 block text-sm font-semibold text-slate-700">Kota pengiriman</span><input type="text" id="customer-city" placeholder="Semarang" class="w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus:border-brand-400 focus:ring-brand-200"></label>
+          </div>
+        </div>
+
+        <div class="step-panel hidden space-y-5" data-step-panel="1">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Produk</p>
+            <h2 class="mt-2 text-3xl font-black text-slate-900">Tentukan model dan kuantitas</h2>
+          </div>
+          <div class="grid gap-4 md:grid-cols-2">
+            <label class="block"><span class="mb-2 block text-sm font-semibold text-slate-700">Kategori</span><select id="order-category" class="w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus:border-brand-400 focus:ring-brand-200"></select></label>
+            <label class="block"><span class="mb-2 block text-sm font-semibold text-slate-700">Model produk</span><select id="order-product" class="w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus:border-brand-400 focus:ring-brand-200"></select></label>
+            <label class="block"><span class="mb-2 block text-sm font-semibold text-slate-700">Qty</span><select id="order-qty" class="w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus:border-brand-400 focus:ring-brand-200"><option value="36">36 pcs</option><option value="50">50 pcs</option><option value="100">100 pcs</option></select></label>
+            <label class="block"><span class="mb-2 block text-sm font-semibold text-slate-700">Ukuran dominan</span><select id="order-size" class="w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus:border-brand-400 focus:ring-brand-200"><option>S</option><option>M</option><option>L</option><option>XL</option><option>2XL</option><option>3XL</option></select></label>
+          </div>
+        </div>
+
+        <div class="step-panel hidden space-y-5" data-step-panel="2">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Desain</p>
+            <h2 class="mt-2 text-3xl font-black text-slate-900">Upload file dan kebutuhan branding</h2>
+          </div>
+          <label class="block rounded-[1.5rem] border border-dashed border-brand-300 bg-brand-50 p-6 transition hover:border-brand-400 hover:bg-brand-100/50">
+            <input type="file" id="design-upload" hidden>
+            <span id="upload-label" class="block text-base font-semibold text-slate-900">Klik untuk memilih file desain customer</span>
+            <small class="mt-2 block text-sm leading-6 text-slate-500">Mock interaction untuk AI, CDR, PDF, PNG, atau ZIP</small>
+          </label>
+          <div class="grid gap-4 md:grid-cols-2">
+            <label class="block"><span class="mb-2 block text-sm font-semibold text-slate-700">Teknik branding</span><select id="order-branding" class="w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus:border-brand-400 focus:ring-brand-200"><option value="bordir">Bordir</option><option value="sablon">Sablon / DTF</option></select></label>
+            <label class="block"><span class="mb-2 block text-sm font-semibold text-slate-700">Catatan tambahan</span><input type="text" id="order-note" placeholder="Logo depan kiri, nama punggung, deadline event" class="w-full rounded-2xl border-slate-200 bg-slate-50 px-4 py-3 shadow-sm focus:border-brand-400 focus:ring-brand-200"></label>
+          </div>
+        </div>
+
+        <div class="step-panel hidden space-y-5" data-step-panel="3">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Estimasi</p>
+            <h2 class="mt-2 text-3xl font-black text-slate-900">Hitung kebutuhan dan biaya mock</h2>
+          </div>
+          <div id="addon-grid" class="space-y-3"></div>
+          <button class="inline-flex items-center gap-2 rounded-[1rem] bg-slate-900 px-5 py-3 text-sm font-semibold text-white" id="estimate-button" type="button"><i data-lucide="calculator" class="h-4 w-4"></i>Hitung Estimasi</button>
+          <div id="estimate-box" class="rounded-[1.5rem] bg-slate-50 p-5 text-sm text-slate-700"></div>
+        </div>
+
+        <div class="step-panel hidden space-y-5" data-step-panel="4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Ringkasan</p>
+            <h2 class="mt-2 text-3xl font-black text-slate-900">Review sebelum submit</h2>
+          </div>
+          <div id="order-summary" class="rounded-[1.5rem] bg-slate-50 p-5 text-sm text-slate-700"></div>
+        </div>
+
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-between">
+          <button class="inline-flex items-center justify-center gap-2 rounded-[1rem] border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm" id="prev-step" type="button">Kembali</button>
+          <button class="inline-flex items-center justify-center gap-2 rounded-[1rem] bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-3 text-sm font-semibold text-white shadow-soft" id="next-step" type="button">Lanjut</button>
+        </div>
+      </section>
+
+      <aside class="rounded-[2rem] border border-white/70 bg-white/95 p-5 shadow-card md:p-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Panel ringkas</p>
+        <h3 class="mt-2 text-2xl font-black text-slate-900">Yang terjadi setelah submit</h3>
+        <ul class="mt-5 space-y-4 text-sm leading-7 text-slate-600">
+          <li>Invoice dibuat otomatis setelah verifikasi admin.</li>
+          <li>Nomor invoice dipakai untuk tracking produksi customer.</li>
+          <li>Foto progres produksi muncul saat operator mengunggah update.</li>
+        </ul>
+        <div class="mt-6 space-y-3">
+          <a href="tracking.html" class="inline-flex w-full items-center justify-center gap-2 rounded-[1rem] bg-slate-900 px-4 py-3 text-sm font-semibold text-white">Lihat simulasi tracking</a>
+          <button type="button" class="inline-flex w-full items-center justify-center gap-2 rounded-[1rem] border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700" data-toast="Admin akan membaca ringkasan ini, memverifikasi desain, lalu generate invoice untuk customer.">Info verifikasi admin</button>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

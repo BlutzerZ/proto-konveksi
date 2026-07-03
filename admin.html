@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin | SentaPrint</title>
+  <script>
+    tailwind = {
+      config: {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#fff7ed",
+                100: "#ffedd5",
+                500: "#f97316",
+                600: "#ea580c",
+                900: "#7c2d12"
+              }
+            },
+            boxShadow: {
+              soft: "0 20px 60px rgba(15, 23, 42, 0.12)",
+              card: "0 10px 30px rgba(15, 23, 42, 0.08)"
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body data-page="admin" class="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(249,115,22,0.18),_transparent_22%),linear-gradient(180deg,_#fff8f4_0%,_#f8fafc_100%)] text-slate-900">
+  <div id="toast-stack" class="fixed right-4 top-4 z-[70] flex w-[min(92vw,24rem)] flex-col gap-3"></div>
+  <div id="app-modal" class="pointer-events-none fixed inset-0 z-[80] hidden">
+    <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" data-close-app-modal></div>
+    <div class="relative mx-auto mt-10 w-[min(92vw,60rem)] rounded-[2rem] border border-white/60 bg-white/95 p-6 shadow-soft md:mt-16 md:p-8">
+      <button type="button" class="absolute right-5 top-5 rounded-full bg-slate-100 p-2 text-slate-600 transition hover:bg-slate-200" data-close-app-modal><i data-lucide="x" class="h-5 w-5"></i></button>
+      <h3 id="app-modal-title" class="text-2xl font-black text-slate-900"></h3>
+      <div id="app-modal-body" class="mt-4 prose prose-slate max-w-none"></div>
+    </div>
+  </div>
+
+  <div class="grid min-h-screen lg:grid-cols-[290px_minmax(0,1fr)]">
+    <aside class="border-b border-white/60 bg-slate-950 px-5 py-6 text-slate-100 lg:min-h-screen lg:border-b-0 lg:border-r">
+      <a href="index.html" class="inline-flex items-center gap-4">
+        <div class="grid h-14 w-14 place-items-center rounded-3xl bg-white/10 text-xl font-black backdrop-blur">SP</div>
+        <div>
+          <p class="text-lg font-bold">SentaPrint</p>
+          <p class="text-sm text-slate-400">Dashboard Admin</p>
+        </div>
+      </a>
+
+      <div class="mt-8 rounded-[1.75rem] border border-white/10 bg-white/5 p-4">
+        <p class="text-xs font-semibold uppercase tracking-[0.24em] text-orange-200">Status hari ini</p>
+        <p class="mt-2 text-2xl font-black">11 produksi on-track</p>
+        <p class="mt-2 text-sm leading-6 text-slate-300">3 pesanan perlu verifikasi dan 1 job butuh approval desain.</p>
+      </div>
+
+      <nav id="admin-tabs" class="mt-8 grid gap-2">
+        <button class="admin-tab active inline-flex items-center gap-3 rounded-[1.25rem] bg-white/10 px-4 py-3 text-left text-sm font-semibold" data-tab="overview"><i data-lucide="layout-dashboard" class="h-4 w-4"></i>Overview</button>
+        <button class="admin-tab inline-flex items-center gap-3 rounded-[1.25rem] px-4 py-3 text-left text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white" data-tab="orders"><i data-lucide="shopping-cart" class="h-4 w-4"></i>Manajemen Pesanan</button>
+        <button class="admin-tab inline-flex items-center gap-3 rounded-[1.25rem] px-4 py-3 text-left text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white" data-tab="customers"><i data-lucide="users" class="h-4 w-4"></i>Manajemen Customer</button>
+        <button class="admin-tab inline-flex items-center gap-3 rounded-[1.25rem] px-4 py-3 text-left text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white" data-tab="monitoring"><i data-lucide="activity" class="h-4 w-4"></i>Monitoring Produksi</button>
+        <button class="admin-tab inline-flex items-center gap-3 rounded-[1.25rem] px-4 py-3 text-left text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white" data-tab="invoice"><i data-lucide="receipt-text" class="h-4 w-4"></i>Invoice</button>
+        <button class="admin-tab inline-flex items-center gap-3 rounded-[1.25rem] px-4 py-3 text-left text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white" data-tab="whatsapp"><i data-lucide="messages-square" class="h-4 w-4"></i>WhatsApp</button>
+        <button class="admin-tab inline-flex items-center gap-3 rounded-[1.25rem] px-4 py-3 text-left text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white" data-tab="reports"><i data-lucide="file-bar-chart-2" class="h-4 w-4"></i>Laporan</button>
+        <button class="admin-tab inline-flex items-center gap-3 rounded-[1.25rem] px-4 py-3 text-left text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white" data-tab="pricing"><i data-lucide="badge-dollar-sign" class="h-4 w-4"></i>Katalog &amp; Pricing</button>
+      </nav>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="login.html" class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white">Kembali Login</a>
+        <button type="button" class="inline-flex items-center gap-2 rounded-full border border-orange-300/20 bg-orange-400/10 px-4 py-2 text-sm font-semibold text-orange-200" data-modal-template="admin-help">Panduan</button>
+      </div>
+    </aside>
+
+    <main class="p-4 md:p-6 xl:p-8">
+      <header class="mb-6 flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Role internal</p>
+          <h1 class="mt-2 text-4xl font-black tracking-tight text-slate-900">Panel admin</h1>
+          <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-600 md:text-base">Kelola pesanan, customer, monitoring produksi, invoice, template WhatsApp, dan laporan dari satu dashboard yang lebih kaya visual dan interaksi.</p>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2">
+          <button type="button" class="inline-flex items-center justify-center gap-2 rounded-[1.25rem] bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-4 font-semibold text-white shadow-soft" data-dashboard-action="verifikasi-batch">
+            <i data-lucide="badge-check" class="h-5 w-5"></i>Verifikasi Batch
+          </button>
+          <button type="button" class="inline-flex items-center justify-center gap-2 rounded-[1.25rem] border border-slate-200 bg-white px-5 py-4 font-semibold text-slate-700 shadow-card" data-dashboard-action="compose-broadcast">
+            <i data-lucide="send" class="h-5 w-5"></i>Broadcast WA
+          </button>
+        </div>
+      </header>
+
+      <section class="dashboard-panel active space-y-6" data-panel="overview">
+        <article class="rounded-[2rem] border border-white/70 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 p-6 text-white shadow-soft">
+          <div class="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-orange-200">Monitoring cepat</p>
+              <h2 class="mt-2 text-3xl font-black tracking-tight">Overview operasional hari ini</h2>
+              <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-200">Sidebar tetap di desktop, chart dan ringkasan tetap nyaman di tablet/mobile, dan setiap tombol memberi feedback nyata melalui modal, toast, atau update panel.</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <button type="button" class="rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow-card" data-dashboard-action="open-monitoring">Buka Monitoring</button>
+              <button type="button" class="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white" data-dashboard-action="export-report">Export Ringkas</button>
+            </div>
+          </div>
+        </article>
+
+        <div id="admin-stats" class="grid gap-4 md:grid-cols-2 xl:grid-cols-4"></div>
+
+        <div class="grid gap-5 xl:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
+          <article class="rounded-[2rem] border border-white/70 bg-white/95 p-5 shadow-card">
+            <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">ApexCharts</p>
+                <h3 class="mt-2 text-2xl font-black text-slate-900">Tren operasional</h3>
+              </div>
+              <div class="flex flex-wrap gap-2" id="chart-range">
+                <button type="button" class="chart-range-btn rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white" data-range="weekly">Mingguan</button>
+                <button type="button" class="chart-range-btn rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700" data-range="monthly">Bulanan</button>
+              </div>
+            </div>
+            <div class="grid gap-5 xl:grid-cols-2">
+              <div id="orders-chart" class="min-h-[280px]"></div>
+              <div id="trend-chart" class="min-h-[280px]"></div>
+            </div>
+          </article>
+
+          <article class="rounded-[2rem] border border-white/70 bg-white/95 p-5 shadow-card">
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Aktivitas terbaru</p>
+                <h3 class="mt-2 text-2xl font-black text-slate-900">Quick actions</h3>
+              </div>
+              <button type="button" class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700" data-dashboard-action="refresh-overview">Refresh</button>
+            </div>
+            <div id="recent-orders" class="space-y-3"></div>
+            <div class="mt-5 rounded-[1.5rem] bg-slate-50 p-4">
+              <div class="mb-3 flex items-center justify-between">
+                <p class="font-semibold text-slate-900">Monitoring ringkas</p>
+                <button type="button" class="text-sm font-semibold text-brand-600" data-dashboard-action="focus-critical">Fokus kritis</button>
+              </div>
+              <div id="monitoring-summary" class="space-y-4"></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="dashboard-panel hidden" data-panel="orders">
+        <article class="rounded-[2rem] border border-white/70 bg-white/95 p-5 shadow-card">
+          <div class="mb-5 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Manajemen pesanan</p>
+              <h3 class="mt-2 text-2xl font-black text-slate-900">Verifikasi, edit, cancel, generate invoice</h3>
+            </div>
+            <button type="button" class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700" data-dashboard-action="filter-priority">Filter prioritas</button>
+          </div>
+          <div id="orders-table" class="space-y-4"></div>
+        </article>
+      </section>
+
+      <section class="dashboard-panel hidden" data-panel="customers">
+        <article class="rounded-[2rem] border border-white/70 bg-white/95 p-5 shadow-card">
+          <div class="mb-5 flex items-center justify-between gap-3">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Customer</p>
+              <h3 class="mt-2 text-2xl font-black text-slate-900">Data dan histori customer</h3>
+            </div>
+            <button type="button" class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700" data-dashboard-action="customer-segment">Segmentasi</button>
+          </div>
+          <div id="customers-list" class="space-y-4"></div>
+        </article>
+      </section>
+
+      <section class="dashboard-panel hidden" data-panel="monitoring">
+        <article class="rounded-[2rem] border border-white/70 bg-white/95 p-5 shadow-card">
+          <div class="mb-5 flex items-center justify-between gap-3">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Monitoring</p>
+              <h3 class="mt-2 text-2xl font-black text-slate-900">Progres produksi lintas pesanan</h3>
+            </div>
+            <button type="button" class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700" data-dashboard-action="simulate-delay">Simulasikan delay</button>
+          </div>
+          <div id="monitoring-board" class="space-y-4"></div>
+        </article>
+      </section>
+
+      <section class="dashboard-panel hidden" data-panel="invoice">
+        <article class="rounded-[2rem] border border-white/70 bg-white/95 p-5 shadow-card">
+          <h3 class="text-2xl font-black text-slate-900">Invoice</h3>
+          <div id="invoice-preview" class="mt-5"></div>
+        </article>
+      </section>
+
+      <section class="dashboard-panel hidden" data-panel="whatsapp">
+        <article class="rounded-[2rem] border border-white/70 bg-white/95 p-5 shadow-card">
+          <div class="mb-5 flex items-center justify-between gap-3">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Template notifikasi</p>
+              <h3 class="mt-2 text-2xl font-black text-slate-900">WhatsApp customer</h3>
+            </div>
+            <button type="button" class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700" data-dashboard-action="new-template">Template baru</button>
+          </div>
+          <div id="whatsapp-templates" class="space-y-4"></div>
+        </article>
+      </section>
+
+      <section class="dashboard-panel hidden" data-panel="reports">
+        <div id="report-stats" class="grid gap-4 md:grid-cols-2 xl:grid-cols-4"></div>
+        <article class="mt-5 rounded-[2rem] border border-white/70 bg-white/95 p-5 shadow-card">
+          <div class="mb-5 flex items-center justify-between gap-3">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-brand-500">Laporan</p>
+              <h3 class="mt-2 text-2xl font-black text-slate-900">Ringkasan operasional</h3>
+            </div>
+            <button type="button" class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700" data-dashboard-action="export-full">Export penuh</button>
+          </div>
+          <div id="reports-table" class="space-y-4"></div>
+        </article>
+      </section>
+
+      <section class="dashboard-panel hidden" data-panel="pricing">
+        <article class="rounded-[2rem] border border-white/70 bg-white/95 p-5 shadow-card">
+          <h3 class="text-2xl font-black text-slate-900">Katalog dan pricing</h3>
+          <div id="pricing-cards" class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3"></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
